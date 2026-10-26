@@ -1700,34 +1700,36 @@
     .social-divider { color: var(--rose); }
 
     .social-row {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 26px;
-      width: 100%;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      margin-top: 26px !important;
+      width: 100% !important;
       opacity: 1 !important;
       visibility: visible !important;
+      transform: none !important;
     }
 
     .social-chip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 16px;
-      border-radius: var(--radius-pill);
-      border: 1px solid #5C4033;
-      color: #5C4033;
-      background: transparent;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.25;
-      letter-spacing: .01em;
-      white-space: nowrap;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 8px 16px !important;
+      border-radius: var(--radius-pill) !important;
+      border: 1px solid #5C4033 !important;
+      color: #5C4033 !important;
+      background: transparent !important;
+      text-decoration: none !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      line-height: 1.25 !important;
+      letter-spacing: .01em !important;
+      white-space: nowrap !important;
       opacity: 1 !important;
       visibility: visible !important;
+      transform: none !important;
       transition: background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease);
     }
 
@@ -1864,6 +1866,35 @@
       opacity: 1 !important;
       visibility: visible !important;
       display: inline-flex !important;
+    }
+
+    /* Социальные кнопки - всегда видимы */
+    .social-row,
+    .social-chip,
+    a.social-chip {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: inline-flex !important;
+      transform: none !important;
+      -webkit-transform: none !important;
+      animation: none !important;
+      -webkit-animation: none !important;
+      transition: none !important;
+      -webkit-transition: none !important;
+      filter: none !important;
+      pointer-events: auto !important;
+      clip-path: none !important;
+      will-change: auto !important;
+    }
+    .social-row {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+    }
+    .js .social-row.reveal,
+    .js .social-chip.reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      -webkit-transform: none !important;
     }
 
     /* Responsive */
@@ -2808,7 +2839,14 @@
   </header>
 
   <style>
-    .social-row, .social-chip, .social-link { opacity: 1 !important; visibility: visible !important; }
+    .social-row, .social-chip, .social-link {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: inline-flex !important;
+      transform: none !important;
+      pointer-events: auto !important;
+    }
+    [class*="social"] { opacity: 1 !important; visibility: visible !important; }
   </style>
   <main>
     <section class="hero" id="top" aria-labelledby="hero-title">
@@ -3209,8 +3247,8 @@
             </div>
           </div>
           <div class="social-row">
-            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important;">написать в MAX</a>
-            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important;">написать в VK</a>
+            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important; display:inline-flex !important; transform:none !important;">написать в MAX</a>
+            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important; display:inline-flex !important; transform:none !important;">написать в VK</a>
           </div>
         </div>
 
@@ -3325,18 +3363,32 @@
         if (header) header.classList.toggle('is-scrolled', window.scrollY > 24);
       };
       updateHeader();
-      window.addEventListener('scroll', updateHeader, { passive: true });
+      try {
+        window.addEventListener('scroll', updateHeader, { passive: true });
+      } catch (e) {}
 
       const revealItems = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window && !reduceMotion) {
         const revealObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
+            // Не скрываем соцкнопки
+            if (entry.target.classList.contains('social-row') || entry.target.classList.contains('social-chip')) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+              return;
+            }
             entry.target.classList.add('is-visible');
             observer.unobserve(entry.target);
           });
         }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
-        revealItems.forEach((item) => revealObserver.observe(item));
+        revealItems.forEach((item) => {
+          if (item.classList.contains('social-row') || item.classList.contains('social-chip')) {
+            item.classList.add('is-visible');
+            return;
+          }
+          revealObserver.observe(item);
+        });
       } else {
         revealItems.forEach((item) => item.classList.add('is-visible'));
       }
