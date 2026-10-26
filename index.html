@@ -2865,31 +2865,38 @@
     }
   </style>
   <style>
-    html body section#contacts .social-row,
-    html body #contacts .social-row,
-    html body .final-section .social-row {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 10px !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      transform: none !important;
-      -webkit-transform: none !important;
-      animation: none !important;
+    .social-simple {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 26px;
+      width: 100%;
+      opacity: 1;
+      visibility: visible;
     }
-    html body section#contacts .social-row .social-chip,
-    html body #contacts .social-chip,
-    html body .final-section .social-chip {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      transform: none !important;
-      -webkit-transform: none !important;
-      animation: none !important;
+    .social-simple-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid #5C4033;
+      color: #5C4033;
+      background: transparent;
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.25;
+      white-space: nowrap;
+      opacity: 1;
+      visibility: visible;
+      transition: background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .social-simple-link:hover {
+      border-color: transparent;
+      color: #fff;
+      background: linear-gradient(145deg, #E99AB8 0%, #C76187 52%, #B95278 100%);
     }
   </style>
   <main>
@@ -3290,9 +3297,9 @@
               <div><span class="contact-label">Часы работы</span><span class="contact-value">ежедневно с 10:00 до 22:00</span></div>
             </div>
           </div>
-          <div class="social-row">
-            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer">написать в MAX</a>
-            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer">написать в VK</a>
+          <div class="social-simple">
+            <a class="social-simple-link" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer">написать в MAX</a>
+            <a class="social-simple-link" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer">написать в VK</a>
           </div>
         </div>
 
@@ -3425,13 +3432,6 @@
       }
 
       navLinks.forEach((link) => link.addEventListener('click', closeMenu));
-      if (typeof forceSocial === 'function') {
-        forceSocial();
-        requestAnimationFrame(forceSocial);
-        setTimeout(forceSocial, 0);
-        setTimeout(forceSocial, 100);
-        setInterval(forceSocial, 200);
-      }
       if (mobileMenu.addEventListener) mobileMenu.addEventListener('change', closeMenu);
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && menuToggle && menuToggle.classList.contains('is-open')) {
@@ -3446,22 +3446,7 @@
       };
       updateHeader();
       try { window.addEventListener('scroll', updateHeader, { passive: true }); } catch (e) {}
-      const forceSocial = () => {
-        document.querySelectorAll('section#contacts .social-row, #contacts .social-row, .final-section .social-row').forEach((el) => {
-          el.style.cssText = 'opacity:1 !important; visibility:visible !important; display:flex !important; flex-wrap:nowrap !important; align-items:center !important; justify-content:center !important; transform:none !important; gap:10px !important;';
-        });
-        document.querySelectorAll('section#contacts .social-chip, #contacts .social-chip, .final-section .social-chip').forEach((el) => {
-          el.style.cssText = 'opacity:1 !important; visibility:visible !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; transform:none !important;';
-        });
-      };
-      forceSocial();
-      window.addEventListener('DOMContentLoaded', forceSocial);
-      window.addEventListener('load', forceSocial);
-      requestAnimationFrame(forceSocial);
-      setTimeout(forceSocial, 0);
-      setTimeout(forceSocial, 50);
-      setTimeout(forceSocial, 200);
-      setInterval(forceSocial, 150);
+      const forceSocial = () => {};
 
       const revealItems = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window && !reduceMotion) {
