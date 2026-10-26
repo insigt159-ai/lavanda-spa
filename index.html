@@ -2831,17 +2831,66 @@
   </header>
 
   <style>
+    html body section#contacts .social-row,
     html body .final-section .social-row,
-    html body .final-section .social-chip,
-    html body .social-row,
-    html body .social-chip {
+    html body .social-row {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
       opacity: 1 !important;
       visibility: visible !important;
-      display: inline-flex !important;
       transform: none !important;
       -webkit-transform: none !important;
+      animation: none !important;
+      -webkit-animation: none !important;
+      transition: none !important;
+      -webkit-transition: none !important;
     }
-    html body .final-section .social-row { display: flex !important; flex-wrap: nowrap !important; }
+    html body section#contacts .social-row .social-chip,
+    html body .final-section .social-chip,
+    html body .social-chip {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      -webkit-transform: none !important;
+      animation: none !important;
+      -webkit-animation: none !important;
+      transition: background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease) !important;
+      -webkit-transition: background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease) !important;
+    }
+  </style>
+  <style>
+    html body section#contacts .social-row,
+    html body #contacts .social-row,
+    html body .final-section .social-row {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      -webkit-transform: none !important;
+      animation: none !important;
+    }
+    html body section#contacts .social-row .social-chip,
+    html body #contacts .social-chip,
+    html body .final-section .social-chip {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      -webkit-transform: none !important;
+      animation: none !important;
+    }
   </style>
   <main>
     <section class="hero" id="top" aria-labelledby="hero-title">
@@ -3241,9 +3290,9 @@
               <div><span class="contact-label">Часы работы</span><span class="contact-value">ежедневно с 10:00 до 22:00</span></div>
             </div>
           </div>
-          <div class="social-row" style="opacity:1 !important; visibility:visible !important; display:flex !important; flex-wrap:nowrap !important; transform:none !important;">
-            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important; display:inline-flex !important; transform:none !important;">написать в MAX</a>
-            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important; display:inline-flex !important; transform:none !important;">написать в VK</a>
+          <div class="social-row">
+            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer">написать в MAX</a>
+            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer">написать в VK</a>
           </div>
         </div>
 
@@ -3301,6 +3350,37 @@
     </div>
   </dialog>
 
+  <style id="social-force">
+    html body #contacts .social-row,
+    html body .final-section .social-row,
+    html body .social-row {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      -webkit-transform: none !important;
+      animation: none !important;
+      -webkit-animation: none !important;
+    }
+    html body #contacts .social-row .social-chip,
+    html body .final-section .social-chip,
+    html body .social-chip {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      -webkit-transform: none !important;
+      animation: none !important;
+      -webkit-animation: none !important;
+    }
+  </style>
+
   <script>
     (() => {
       const header = document.getElementById('site-header');
@@ -3345,7 +3425,13 @@
       }
 
       navLinks.forEach((link) => link.addEventListener('click', closeMenu));
-      if (typeof forceSocial === 'function') forceSocial();
+      if (typeof forceSocial === 'function') {
+        forceSocial();
+        requestAnimationFrame(forceSocial);
+        setTimeout(forceSocial, 0);
+        setTimeout(forceSocial, 100);
+        setInterval(forceSocial, 200);
+      }
       if (mobileMenu.addEventListener) mobileMenu.addEventListener('change', closeMenu);
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && menuToggle && menuToggle.classList.contains('is-open')) {
@@ -3361,26 +3447,21 @@
       updateHeader();
       try { window.addEventListener('scroll', updateHeader, { passive: true }); } catch (e) {}
       const forceSocial = () => {
-        document.querySelectorAll('.social-row').forEach((el) => {
-          el.style.setProperty('opacity', '1', 'important');
-          el.style.setProperty('visibility', 'visible', 'important');
-          el.style.setProperty('display', 'flex', 'important');
-          el.style.setProperty('flex-wrap', 'nowrap', 'important');
-          el.style.setProperty('transform', 'none', 'important');
+        document.querySelectorAll('section#contacts .social-row, #contacts .social-row, .final-section .social-row').forEach((el) => {
+          el.style.cssText = 'opacity:1 !important; visibility:visible !important; display:flex !important; flex-wrap:nowrap !important; align-items:center !important; justify-content:center !important; transform:none !important; gap:10px !important;';
         });
-        document.querySelectorAll('.social-chip').forEach((el) => {
-          el.style.setProperty('opacity', '1', 'important');
-          el.style.setProperty('visibility', 'visible', 'important');
-          el.style.setProperty('display', 'inline-flex', 'important');
-          el.style.setProperty('transform', 'none', 'important');
-          el.style.setProperty('transition', 'background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease)', 'important');
+        document.querySelectorAll('section#contacts .social-chip, #contacts .social-chip, .final-section .social-chip').forEach((el) => {
+          el.style.cssText = 'opacity:1 !important; visibility:visible !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; transform:none !important;';
         });
       };
       forceSocial();
-      setInterval(forceSocial, 300);
-      window.addEventListener('focus', forceSocial);
-      window.addEventListener('pageshow', forceSocial);
-      document.addEventListener('visibilitychange', forceSocial);
+      window.addEventListener('DOMContentLoaded', forceSocial);
+      window.addEventListener('load', forceSocial);
+      requestAnimationFrame(forceSocial);
+      setTimeout(forceSocial, 0);
+      setTimeout(forceSocial, 50);
+      setTimeout(forceSocial, 200);
+      setInterval(forceSocial, 150);
 
       const revealItems = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window && !reduceMotion) {
