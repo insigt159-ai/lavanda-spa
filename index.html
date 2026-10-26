@@ -1847,13 +1847,13 @@
 
     /* Финальный блок: только сдвиг, без прозрачности.
        Плашки логотипа и текста не смешиваются с фоном секции #DCC8B8. */
-    .js .final-copy.reveal {
+    .js .final-copy {
       opacity: 1;
       transform: translateY(22px);
       transition: transform .85s var(--ease);
     }
 
-    .js .final-copy.reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .js .final-copy.is-visible { opacity: 1; transform: translateY(0); }
 
     /* Социальные кнопки - всегда видимы */
     html.js .final-copy .social-row,
@@ -1883,12 +1883,12 @@
       display: flex !important;
       flex-wrap: nowrap !important;
     }
-    html.js .final-copy.reveal,
+    html.js .final-copy,
     html.js .reveal {
       opacity: 1 !important;
     }
-    html.js .final-copy.reveal .social-row,
-    html.js .final-copy.reveal .social-chip,
+    html.js .final-copy .social-row,
+    html.js .final-copy .social-chip,
     html.js .reveal .social-row,
     html.js .reveal .social-chip {
       opacity: 1 !important;
@@ -3212,7 +3212,7 @@
 
     <section class="section final-section" id="contacts" aria-labelledby="final-title">
       <div class="container final-inner">
-        <div class="final-copy reveal">
+        <div class="final-copy">
           <div class="final-topline">
             <img class="final-logo" src="images/logo.png.png" alt="Логотип SPA-салона Лаванда">
             <div class="final-cta"><button class="button button--light" type="button" data-booking-open>Записаться на процедуру</button></div>
@@ -3236,9 +3236,9 @@
               <div><span class="contact-label">Часы работы</span><span class="contact-value">ежедневно с 10:00 до 22:00</span></div>
             </div>
           </div>
-          <div class="social-row">
-            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer">написать в MAX</a>
-            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer">написать в VK</a>
+          <div class="social-row" style="opacity:1 !important; visibility:visible !important; display:flex !important; flex-wrap:nowrap !important; transform:none !important;">
+            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important; display:inline-flex !important; transform:none !important;">написать в MAX</a>
+            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important; display:inline-flex !important; transform:none !important;">написать в VK</a>
           </div>
         </div>
 
@@ -3380,7 +3380,12 @@
       if ('IntersectionObserver' in window && !reduceMotion) {
         const revealObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach((entry) => {
-            if (entry.target.classList.contains('social-row') || entry.target.classList.contains('social-chip') || entry.target.querySelector && (entry.target.querySelector('.social-row') || entry.target.querySelector('.social-chip'))) {
+            if (entry.target.classList.contains('social-row') || entry.target.classList.contains('social-chip') || (entry.target.querySelector && (entry.target.querySelector('.social-row') || entry.target.querySelector('.social-chip')))) {
+              entry.target.classList.add('is-visible');
+              try { observer.unobserve(entry.target); } catch(e){}
+              return;
+            }
+            if (entry.target.classList.contains('final-copy')) {
               entry.target.classList.add('is-visible');
               try { observer.unobserve(entry.target); } catch(e){}
               return;
@@ -3395,10 +3400,20 @@
             item.classList.add('is-visible');
             return;
           }
+          if (item.classList.contains('final-copy')) {
+            item.classList.add('is-visible');
+            return;
+          }
           revealObserver.observe(item);
         });
       } else {
-        revealItems.forEach((item) => item.classList.add('is-visible'));
+        revealItems.forEach((item) => {
+          if (item.classList.contains('final-copy')) {
+            item.classList.add('is-visible');
+            return;
+          }
+          item.classList.add('is-visible');
+        });
       }
 
       document.querySelectorAll('.faq-question').forEach((question) => {
