@@ -1856,13 +1856,11 @@
     .js .final-copy.is-visible { opacity: 1; transform: translateY(0); }
 
     /* Социальные кнопки - всегда видимы */
-    html.js .final-copy .social-row,
-    html.js .final-copy .social-chip,
-    html.js .reveal .social-row,
-    html.js .reveal .social-chip,
-    .social-row,
-    .social-chip,
-    a.social-chip {
+    html body .final-section .social-row,
+    html body .final-section .social-chip,
+    html body .social-row,
+    html body .social-chip,
+    html body a.social-chip {
       opacity: 1 !important;
       visibility: visible !important;
       display: inline-flex !important;
@@ -1871,30 +1869,24 @@
       animation: none !important;
       -webkit-animation: none !important;
       transition: background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease) !important;
+      -webkit-transition: background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease) !important;
       filter: none !important;
       -webkit-filter: none !important;
       pointer-events: auto !important;
       clip-path: none !important;
+      -webkit-clip-path: none !important;
       will-change: auto !important;
     }
-    html.js .final-copy .social-row,
-    html.js .reveal .social-row,
-    .social-row {
+    html body .final-section .social-row,
+    html body .social-row {
       display: flex !important;
       flex-wrap: nowrap !important;
     }
-    html.js .final-copy,
-    html.js .reveal {
-      opacity: 1 !important;
-    }
-    html.js .final-copy .social-row,
-    html.js .final-copy .social-chip,
-    html.js .reveal .social-row,
-    html.js .reveal .social-chip {
+    html body .final-section,
+    html body .final-copy {
       opacity: 1 !important;
       visibility: visible !important;
       transform: none !important;
-      -webkit-transform: none !important;
     }
 
     /* Responsive */
@@ -2838,6 +2830,19 @@
     </div>
   </header>
 
+  <style>
+    html body .final-section .social-row,
+    html body .final-section .social-chip,
+    html body .social-row,
+    html body .social-chip {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: inline-flex !important;
+      transform: none !important;
+      -webkit-transform: none !important;
+    }
+    html body .final-section .social-row { display: flex !important; flex-wrap: nowrap !important; }
+  </style>
   <main>
     <section class="hero" id="top" aria-labelledby="hero-title">
       <img class="hero-media" src="images/hero.jpg.jpg" alt="Спящая девушка после процедуры в салоне Лаванда">
@@ -3339,19 +3344,8 @@
         });
       }
 
-      navLinks.forEach((link) => link.addEventListener('click', closeMenu)); 
-      document.querySelectorAll('.social-chip').forEach((el) => {
-        el.style.opacity = '1';
-        el.style.visibility = 'visible';
-        el.style.display = 'inline-flex';
-        el.style.transform = 'none';
-      });
-      document.querySelectorAll('.social-row').forEach((el) => {
-        el.style.opacity = '1';
-        el.style.visibility = 'visible';
-        el.style.display = 'flex';
-        el.style.transform = 'none';
-      });
+      navLinks.forEach((link) => link.addEventListener('click', closeMenu));
+      if (typeof forceSocial === 'function') forceSocial();
       if (mobileMenu.addEventListener) mobileMenu.addEventListener('change', closeMenu);
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && menuToggle && menuToggle.classList.contains('is-open')) {
@@ -3366,15 +3360,27 @@
       };
       updateHeader();
       try { window.addEventListener('scroll', updateHeader, { passive: true }); } catch (e) {}
-      setTimeout(() => {
-        document.querySelectorAll('.social-row, .social-chip').forEach((el) => {
+      const forceSocial = () => {
+        document.querySelectorAll('.social-row').forEach((el) => {
           el.style.setProperty('opacity', '1', 'important');
           el.style.setProperty('visibility', 'visible', 'important');
+          el.style.setProperty('display', 'flex', 'important');
+          el.style.setProperty('flex-wrap', 'nowrap', 'important');
           el.style.setProperty('transform', 'none', 'important');
-          if (el.classList.contains('social-row')) el.style.setProperty('display', 'flex', 'important');
-          else el.style.setProperty('display', 'inline-flex', 'important');
         });
-      }, 50);
+        document.querySelectorAll('.social-chip').forEach((el) => {
+          el.style.setProperty('opacity', '1', 'important');
+          el.style.setProperty('visibility', 'visible', 'important');
+          el.style.setProperty('display', 'inline-flex', 'important');
+          el.style.setProperty('transform', 'none', 'important');
+          el.style.setProperty('transition', 'background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease)', 'important');
+        });
+      };
+      forceSocial();
+      setInterval(forceSocial, 300);
+      window.addEventListener('focus', forceSocial);
+      window.addEventListener('pageshow', forceSocial);
+      document.addEventListener('visibilitychange', forceSocial);
 
       const revealItems = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window && !reduceMotion) {
