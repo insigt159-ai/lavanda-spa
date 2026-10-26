@@ -1707,6 +1707,8 @@
       gap: 10px;
       margin-top: 26px;
       width: 100%;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
 
     .social-chip {
@@ -1724,6 +1726,8 @@
       line-height: 1.25;
       letter-spacing: .01em;
       white-space: nowrap;
+      opacity: 1 !important;
+      visibility: visible !important;
       transition: background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease);
     }
 
@@ -1850,6 +1854,17 @@
     }
 
     .js .final-copy.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* Социальные кнопки - всегда видимы */
+    .social-row {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    .social-chip {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: inline-flex !important;
+    }
 
     /* Responsive */
     @media (max-width: 980px) {
@@ -2792,6 +2807,9 @@
     </div>
   </header>
 
+  <style>
+    .social-row, .social-chip, .social-link { opacity: 1 !important; visibility: visible !important; }
+  </style>
   <main>
     <section class="hero" id="top" aria-labelledby="hero-title">
       <img class="hero-media" src="images/hero.jpg.jpg" alt="Спящая девушка после процедуры в салоне Лаванда">
@@ -3191,8 +3209,8 @@
             </div>
           </div>
           <div class="social-row">
-            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer">написать в MAX</a>
-            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer">написать в VK</a>
+            <a class="social-chip" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important;">написать в MAX</a>
+            <a class="social-chip" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener noreferrer" style="opacity:1 !important; visibility:visible !important;">написать в VK</a>
           </div>
         </div>
 
